@@ -1,0 +1,33 @@
+{
+  "name": "media-store-net/wp-oop-nonces",
+  "description": "A simple Way to handle nonces in your plugin or theme on a OOP environment",
+  "homepage": "https://github.com/media-store-net/WpNonces",
+  "version": "0.0.1",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Artur Voll",
+      "email": "info@pcservice-voll.de"
+    }
+  ],
+  "require": {
+    "php": "^7.0"
+  },
+  "require-dev": {
+    "inpsyde/php-coding-standards": "^0.13",
+    "brain/monkey": "^2.0",
+    "inpsyde/monkery-test-case": "^5.0",
+    "phpunit/phpunit": "^8.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "MediaStoreNet\\WpNonces\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MediaStoreNet\\WpNonces\\Test\\": "tests/"
+    }
+  },
+  "license": "GPLv2+"
+}
