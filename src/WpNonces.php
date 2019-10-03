@@ -14,17 +14,51 @@
 
 namespace MediaStoreNet\WpNonces;
 
+/**
+ * Class WpNonces
+ *
+ * @category Wp_Nonces
+ * @package  MediaStoreNet\WpNonce
+ * @author   Artur Voll <info@pcservice-voll.de>
+ * @license  GPLv2+ https://...
+ * @link     Media-Store.net
+ */
 class WpNonces implements NonceInterface
 {
 
+    /**
+     * Static Instance of this Class
+     *
+     * @var $_instance
+     */
     private static $_instance;
 
+    /**
+     * Default FieldName
+     *
+     * @var string $field_name
+     */
     protected $field_name = '_wpnonce';
 
+    /**
+     * Default Action for Nonce
+     *
+     * @var string $action
+     */
     protected $action = 'wp-oop-nonce';
 
+    /**
+     * Generated Nonce String
+     *
+     * @var string $nonce
+     */
     protected $nonce;
 
+    /**
+     * GetInstance is a static function o return of this Class Instance
+     *
+     * @return WpNonces
+     */
     public static function getInstance()
     {
         // Initialize the service if it's not already set.
@@ -36,28 +70,42 @@ class WpNonces implements NonceInterface
         return self::$_instance;
     }
 
+    /**
+     * WpNonces constructor.
+     */
     public function __construct()
     {
         $this->init();
     }
 
+
     /**
-     * @return mixed
+     * Getter for FieldName
+     *
+     * @return string
      */
     public function getFieldName(): string
     {
         return $this->field_name;
     }
 
+
     /**
-     * @param mixed $field_name
+     * Setter for FieldName
+     *
+     * @param string $field_name //
+     *
+     * @return void
      */
     public function setFieldName(string $field_name)
     {
         $this->field_name = $field_name;
     }
 
+
     /**
+     * Getter for Nonce String
+     *
      * @return string
      */
     public function getNonce(): string
@@ -66,6 +114,8 @@ class WpNonces implements NonceInterface
     }
 
     /**
+     * Getter for Action
+     *
      * @return string
      */
     public function getAction(): string
@@ -74,7 +124,12 @@ class WpNonces implements NonceInterface
     }
 
     /**
-     * @param string $action
+     * Setter for Action
+     *
+     * @param string $action //
+     *
+     * @return void
+     * @throws \Exception
      */
     public function setAction(string $action)
     {
@@ -84,27 +139,60 @@ class WpNonces implements NonceInterface
         endif;
     }
 
+    /**
+     * Getter for NonceUrl String
+     *
+     * @param string $actionurl //
+     *
+     * @see    https://codex.wordpress.org/Function_Reference/wp_nonce_url
+     * @return string
+     */
     public function getNonceUrl($actionurl): string
     {
         return wp_nonce_url($actionurl, $this->nonce, $this->field_name);
     }
 
 
+    /**
+     * Verifyer for the Nonce String
+     *
+     * @param string $nonce // given nonce-string
+     *
+     * @see    https://codex.wordpress.org/Function_Reference/wp_verify_nonce
+     * @return int|bool
+     */
     public function verifyNonce($nonce): bool
     {
         return wp_verify_nonce($nonce, $this->action);
     }
 
+    /**
+     * Verifyer for Admin Area
+     *
+     * @return mixed|void
+     */
     public function verifyAdmin()
     {
         // TODO: Implement verifyAdmin() method.
     }
 
+    /**
+     * Verifyer for Ajax Requests
+     *
+     * @return mixed|void
+     */
     public function verifyAjax()
     {
         // TODO: Implement verifyAjax() method.
     }
 
+    /**
+     * Initialisation / create of the Nonce
+     *
+     * @see    https://codex.wordpress.org/Function_Reference/wp_create_nonce
+     * @return string|void
+     * @throws \Exception
+     */
     protected function init()
     {
         // make sure that's WordPress
@@ -118,19 +206,31 @@ class WpNonces implements NonceInterface
         // return a Exception if not
         foreach ( $wp_functions as $function ) {
             if (!function_exists($function)) :
-                return $this->throwError(
+                $this->throwError(
                     \BadMethodCallException::class,
                     sprintf(
                         'the function "%s" is not defined, make sure you use this package on WordPress',
                         $function
                     )
                 );
+
+                return;
+
             endif;
         }
 
         $this->nonce = wp_create_nonce($this->action);
     }
 
+    /**
+     * Throw a Error-Message if not in WordPress
+     *
+     * @param string $exceptionClass // Error Class to throw
+     * @param string $message        // Message of the Error
+     *
+     * @return void
+     * @throws \Exception
+     */
     protected function throwError($exceptionClass, $message)
     {
         throw new $exceptionClass($message);
