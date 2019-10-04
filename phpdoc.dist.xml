@@ -2,17 +2,19 @@
 <phpdoc>
     <title>WpNonces</title>
     <parser>
-        <target>phpdocs/output</target>
+        <target>docs/api</target>
         <extensions>
-            <extension>module</extension>
-            <extension>inc</extension>
             <extension>php</extension>
         </extensions>
     </parser>
     <transformer>
-        <target>phpdocs/docs</target>
+        <target>docs/api</target>
     </transformer>
+    <transformations>
+        <template name="clean"/>
+    </transformations>
     <files>
+        <directory>src</directory>
         <ignore>tests/*</ignore>
         <ignore>Tests/*</ignore>
         <ignore>vendor/*</ignore>
