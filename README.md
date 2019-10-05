@@ -43,10 +43,10 @@ in all your settings/options files.</b>
 _Step 3:_ create a form
 In my case i do this on a separate function and call these in my settings/options page
 
-<?php
+`<?php
 function my_form( $wp_nonces ) {
 	ob_start();
-?>
+?>`
 
     <form method="get" action="options.php">
         <label for="testinput">Input</label>
@@ -54,57 +54,55 @@ function my_form( $wp_nonces ) {
 		<?php $wp_nonces->getNonceField(); ?>
 		<?php submit_button( 'speichern' ); ?>
     </form>
-<?php 
+`<?php 
 	return ob_get_clean();
-?>
+?>`
 
 _Step 4:_ Validate
+
 to validate you have several options
 
 call **$wp_nonce->verify('nonceString')**
-<code>
-if ( $wp_nonces->verifyNonce($_REQUEST['_wpnonce']) ):
+
+`if ( $wp_nonces->verifyNonce($_REQUEST['_wpnonce']) ):
     //store options...;
-endif;
-</code>
+endif;`
+
 
 call **$wp_nonce->verifyAdmin()**
-<code>
-if ( $wp_nonces->verifyAdmin() ):
+
+`if ( $wp_nonces->verifyAdmin() ):
    // store options...;
-endif;
-</code>
+endif;`
+
 
 call **$wp_nonces->verifyAjax()** to validate Ajax Requests
-<code>
-if ( $wp_nonces->verifyAjax() ):
+
+`if ( $wp_nonces->verifyAjax() ):
     //store ajax request options...;
-endif;
-</code>
+endif;`
 
 
 By default is used fieldName of nonce "_wpnonce" like in WordPress use.
 The action string is "wp-oop-nonce"
 
 
-For more secure and customized nonce you can modify the fieldName and Action string too<br>
-<code><br>
-$wp_nonces->setFieldName('my-custom-name');<br>
-$wp_nonces->setAction('my-custom-action');<br>
-</code>
+For more secure and customized nonce you can modify the fieldName and Action string too
 
-<section>
-<p>
-When needed you can also use more then one instance like this<br>
-<code>
-$nonces1 = new MediaStoreNet\WpNonces\WpNonces();
+`$wp_nonces->setFieldName('my-custom-name');
+$wp_nonces->setAction('my-custom-action');`
+
+
+When needed you can also use more then one instance like this
+
+`$nonces1 = new MediaStoreNet\WpNonces\WpNonces();
 $nonces1->setFieldName('name1');
-$nonces1->setAction('action1');
-	<br>
-$nonces2 = new MediaStoreNet\WpNonces\WpNonces();
+$nonces1->setAction('action1');`
+	
+`$nonces2 = new MediaStoreNet\WpNonces\WpNonces();
 $nonces2->setFieldName('name2');
-$nonces2->setAction('action2');
-</code>
+$nonces2->setAction('action2');`
+
 
 
 To see all available propertys and methods, please visit our 
