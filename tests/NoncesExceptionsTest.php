@@ -9,8 +9,8 @@
  * @category Wp_Nonces_Tests
  * @package  MediaStoreNet\WpNonce\Test
  * @author   Artur Voll <info@pcservice-voll.de>
- * @license  GPLv2+ https://...
- * @link     Media-Store.net
+ * @license  [GPLv2+] <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     Media-Store.net <https://media-store.net>
  */
 
 namespace MediaStoreNet\WpNonces\Test;
@@ -25,8 +25,8 @@ use MonkeryTestCase\BrainMonkeyWpTestCase;
  * @category Wp_Nonces_Tests
  * @package  MediaStoreNet\WpNonce\Test
  * @author   Artur Voll <info@pcservice-voll.de>
- * @license  GPLv2+ https://...
- * @link     Media-Store.net
+ * @license  [GPLv2+] <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     Media-Store.net <https://media-store.net>
  */
 class NoncesExceptionsTest extends BrainMonkeyWpTestCase
 {
@@ -69,13 +69,60 @@ class NoncesExceptionsTest extends BrainMonkeyWpTestCase
      */
     public function testInstanceInitException()
     {
+        Monkey\Functions\stubs(
+            [
+                '__'       => function ($m, $l) {
+                    return $m;
+                },
+                'esc_attr' => function ($m) {
+                    return $m;
+                },
+                'esc_html' => function ($m) {
+                    return $m;
+                }
+            ]
+        );
+
         try {
             $this->nonceInstannce = WpNonces::getInstance();
         } catch ( \Exception $exception ) {
             self::assertInstanceOf(
-                \BadMethodCallException::class,
+                \Exception::class,
                 $exception,
-                'Expected a BadMethodCallException, because the function is not exists'
+                'Expected a Exception, because the function "add_action" is not exists'
+            );
+        }
+    }
+
+    /**
+     * Testing if try create the instance on not a options or settings page
+     * This test fire a action on admin_notices
+     *
+     * @return void
+     */
+    public function testInstanceInitAdminNotice()
+    {
+
+        Monkey\Functions\stubs(
+            [
+                '__'       => function ($m, $l) {
+                    return $m;
+                },
+                'esc_attr' => function ($m) {
+                    return $m;
+                },
+                'esc_html' => function ($m) {
+                    return $m;
+                }
+            ]
+        );
+
+        try {
+            $this->nonceInstannce = WpNonces::getInstance();
+        } catch ( \Exception $exception ) {
+            self::assertTrue(
+                has_action('admin_notices', $this->nonceInstannce),
+                'Expected a action hook on admin notices'
             );
         }
     }
@@ -108,10 +155,12 @@ class NoncesExceptionsTest extends BrainMonkeyWpTestCase
     {
         Monkey\Functions\stubs(
             [
+                'add_action'          => true,
                 'wp_create_nonce'     => function ($action) {
                     return md5($action);
                 },
                 'wp_nonce_url'        => true,
+                'wp_nonce_field'      => true,
                 'wp_verify_nonce'     => true,
                 'check_admin_referer' => true,
                 'check_ajax_referer'  => true

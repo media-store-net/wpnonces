@@ -2,7 +2,7 @@
   "name": "media-store-net/wp-oop-nonces",
   "description": "A simple Way to handle nonces in your plugin or theme on a OOP environment",
   "homepage": "https://github.com/media-store-net/WpNonces",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "minimum-stability": "stable",
   "authors": [
     {

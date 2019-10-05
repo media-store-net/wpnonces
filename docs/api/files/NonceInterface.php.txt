@@ -8,8 +8,8 @@
  * @category Wp_Nonces
  * @package  MediaStoreNet\WpNonce
  * @author   Artur Voll <info@pcservice-voll.de>
- * @license  GPLv2+ https://...
- * @link     Media-Store.net
+ * @license  [GPLv2+] <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     Media-Store.net <https://media-store.net>
  */
 
 namespace MediaStoreNet\WpNonces;
@@ -21,8 +21,8 @@ namespace MediaStoreNet\WpNonces;
  * @category Wp_Nonces
  * @package  MediaStoreNet\WpNonce
  * @author   Artur Voll <info@pcservice-voll.de>
- * @license  GPLv2+ https://...
- * @link     Media-Store.net
+ * @license  [GPLv2+] <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     Media-Store.net <https://media-store.net>
  */
 interface NonceInterface
 {
@@ -69,20 +69,36 @@ interface NonceInterface
     /**
      * Getter for URL
      *
-     * @param $actionurl //
+     * @param string $actionurl //
      *
      * @return mixed
      */
-    function getNonceUrl($actionurl);
+    function getNonceUrl(string $actionurl);
+
+    /**
+     * Returns hidden input fileds for Nonce and Referrer(optional)
+     * By Default would echo the fields, by setting the $echo to false
+     * the fields will be returned
+     *
+     * @param string $action  // Action String
+     * @param string $name    // Name String
+     * @param bool   $referer // show the referrer-field
+     *                        // by default is true
+     * @param bool   $echo    // echo or return the fields
+     *                        // by default will be echo
+     *
+     * @return string
+     */
+    function getNonceField(string $action, string $name, bool $referer, bool $echo);
 
     /**
      * Verifyer for Nonce
      *
-     * @param $nonce //
+     * @param string $nonce //
      *
      * @return mixed
      */
-    function verifyNonce($nonce);
+    function verifyNonce(string $nonce);
 
     /**
      * Verifyer to Check Admin

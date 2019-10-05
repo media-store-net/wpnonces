@@ -8,8 +8,8 @@
  * @category Wp_Nonces
  * @package  MediaStoreNet\WpNonce
  * @author   Artur Voll <info@pcservice-voll.de>
- * @license  GPLv2+ https://...
- * @link     Media-Store.net
+ * @license  [GPLv2+] <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     Media-Store.net <https://media-store.net>
  */
 
 namespace MediaStoreNet\WpNonces;
@@ -20,8 +20,8 @@ namespace MediaStoreNet\WpNonces;
  * @category Wp_Nonces
  * @package  MediaStoreNet\WpNonce
  * @author   Artur Voll <info@pcservice-voll.de>
- * @license  GPLv2+ https://...
- * @link     Media-Store.net
+ * @license  [GPLv2+] <https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+ * @link     Media-Store.net <https://media-store.net>
  */
 class WpNonces implements NonceInterface
 {
@@ -147,9 +147,42 @@ class WpNonces implements NonceInterface
      * @see    https://codex.wordpress.org/Function_Reference/wp_nonce_url
      * @return string
      */
-    public function getNonceUrl($actionurl): string
+    public function getNonceUrl(string $actionurl): string
     {
         return wp_nonce_url($actionurl, $this->nonce, $this->field_name);
+    }
+
+    /**
+     * Returns hidden input fileds for Nonce and Referrer(optional)
+     * By Default would echo the fields, by setting the $echo to false
+     * the fields will be returned
+     *
+     * @param string $action  // Action String
+     * @param string $name    // Name String
+     * @param bool   $referer // show the referrer-field
+     *                        // by default is true
+     * @param bool   $echo    // echo or return the fields
+     *                        // by default will be echo
+     *
+     * @return string
+     * @throws \Exception
+     * @see    https://codex.wordpress.org/Function_Reference/wp_nonce_field
+     */
+    public function getNonceField(
+        string $action = '',
+        string $name = '',
+        bool $referer = true,
+        bool $echo = true
+    ) {
+        if (!empty($name)) :
+            $this->field_name = $name;
+        endif;
+        if (!empty($action)) :
+            $this->action = $action;
+            $this->init();
+        endif;
+
+        return wp_nonce_field($this->action, $this->field_name, $referer, $echo);
     }
 
 
@@ -161,7 +194,7 @@ class WpNonces implements NonceInterface
      * @see    https://codex.wordpress.org/Function_Reference/wp_verify_nonce
      * @return int|bool
      */
-    public function verifyNonce($nonce): bool
+    public function verifyNonce(string $nonce): bool
     {
         return wp_verify_nonce($nonce, $this->action);
     }
@@ -169,21 +202,23 @@ class WpNonces implements NonceInterface
     /**
      * Verifyer for Admin Area
      *
+     * @see    https://codex.wordpress.org/Function_Reference/check_admin_referer
      * @return mixed|void
      */
     public function verifyAdmin()
     {
-        // TODO: Implement verifyAdmin() method.
+        return check_admin_referer($this->action, $this->field_name);
     }
 
     /**
      * Verifyer for Ajax Requests
      *
+     * @see    https://codex.wordpress.org/check_ajax_referer
      * @return mixed|void
      */
     public function verifyAjax()
     {
-        // TODO: Implement verifyAjax() method.
+        return check_ajax_referer($this->action, $this->field_name, true);
     }
 
     /**
@@ -199,27 +234,68 @@ class WpNonces implements NonceInterface
         $wp_functions = [
             'wp_create_nonce',
             'wp_nonce_url',
+            'wp_nonce_field',
             'wp_verify_nonce',
             'check_admin_referer',
             'check_ajax_referer'
         ];
+
         // return a Exception if not
-        foreach ( $wp_functions as $function ) {
-            if (!function_exists($function)) :
-                $this->throwError(
-                    \BadMethodCallException::class,
-                    sprintf(
-                        'the function "%s" is not defined, make sure you use this package on WordPress',
-                        $function
-                    )
-                );
+        if (!function_exists('add_action')) :
 
-                return;
+            return $this->throwError(
+                \BadMethodCallException::class,
+                sprintf(
+                    'The function "%s" is not defined, make sure you use this package on WordPress',
+                    'add_action'
+                )
+            );
 
-            endif;
-        }
+
+        elseif (function_exists('add_action')) :
+
+            // return a admin_notice if not options page
+            foreach ( $wp_functions as $function ) {
+                if (!function_exists($function)) :
+                    return $this->adminNotice(
+                        __(
+                            sprintf(
+                                'It looks like that function %s doesn`t exists. 
+                            Make sure you use the WpNonces Instance on a options/settings page',
+                                $function
+                            ),
+                            'wpNonce'
+                        )
+                    );
+                endif;
+            }
+        endif;
 
         $this->nonce = wp_create_nonce($this->action);
+    }
+
+    /**
+     * This function fire a action-hook to admin notices
+     * Default type is "error"
+     *
+     * @param string $message // Message to hook to admin_notices
+     * @param string $type    // available types are
+     *                        // ['success', 'info', 'warning', 'error']
+     *
+     * @return string
+     * @see    https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
+     */
+    protected function adminNotice(string $message, string $type = 'error')
+    {
+        $class = sprintf('notice notice-%s is-dismissible', $type);
+
+        $out = sprintf(
+            '<div class="%1$s"><p>%2$s</p></div>',
+            esc_attr($class),
+            esc_html($message)
+        );
+
+        return add_action('admin_notices', $out);
     }
 
     /**
@@ -228,7 +304,7 @@ class WpNonces implements NonceInterface
      * @param string $exceptionClass // Error Class to throw
      * @param string $message        // Message of the Error
      *
-     * @return void
+     * @return string
      * @throws \Exception
      */
     protected function throwError($exceptionClass, $message)
