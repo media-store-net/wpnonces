@@ -36,7 +36,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
      *
      * @var WpNonces
      */
-    public $nonceInstannce;
+    public $nonceInstance;
 
     /**
      * SetUp...
@@ -116,7 +116,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
             ]
         );
 
-        $this->nonceInstannce = WpNonces::getInstance();
+        $this->nonceInstance = WpNonces::getInstance();
     }
 
     /**
@@ -128,7 +128,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
     {
         parent::tearDown();
         Monkey\tearDown();
-        unset($this->nonceInstannce);
+        unset($this->nonceInstance);
     }
 
     /**
@@ -140,7 +140,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
     {
         self::assertInstanceOf(
             WpNonces::class,
-            $this->nonceInstannce,
+            $this->nonceInstance,
             'Expected a Instance of WpNonces Class'
         );
 
@@ -155,11 +155,11 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
     public function testGetNonce()
     {
 
-        $this->nonceInstannce->setAction('wp-oop-nonce');
+        $this->nonceInstance->setAction('wp-oop-nonce');
 
         self::assertSame(
-            md5($this->nonceInstannce->getAction()),
-            $this->nonceInstannce->getNonce(),
+            md5($this->nonceInstance->getAction()),
+            $this->nonceInstance->getNonce(),
             'Expected a genareted md5 string of "action" '
         );
     }
@@ -173,7 +173,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
     {
         self::assertSame(
             'wp-oop-nonce',
-            $this->nonceInstannce->getAction(),
+            $this->nonceInstance->getAction(),
             'Expected a String of "wp-oop-nonce" '
         );
     }
@@ -187,7 +187,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
     {
         self::assertSame(
             '_wpnonce',
-            $this->nonceInstannce->getFieldName(),
+            $this->nonceInstance->getFieldName(),
             'Expected a String of "_wpnonce" '
         );
     }
@@ -199,10 +199,10 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
      */
     public function testGetNonceUrl()
     {
-        $url      = $this->nonceInstannce->getNonceUrl('http://test.de');
+        $url      = $this->nonceInstance->getNonceUrl('http://test.de');
         $expected = 'http://test.de?' .
-                    $this->nonceInstannce->getFieldName() . '=' .
-                    $this->nonceInstannce->getNonce();
+                    $this->nonceInstance->getFieldName() . '=' .
+                    $this->nonceInstance->getNonce();
 
         self::assertSame(
             $expected,
@@ -219,11 +219,11 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
      */
     public function testSetAction()
     {
-        $this->nonceInstannce->setAction('test');
+        $this->nonceInstance->setAction('test');
 
         self::assertSame(
             'test',
-            $this->nonceInstannce->getAction(),
+            $this->nonceInstance->getAction(),
             'Expected a string of test'
         );
 
@@ -237,11 +237,11 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
      */
     public function testSetFieldName()
     {
-        $this->nonceInstannce->setFieldName('my-nonce');
+        $this->nonceInstance->setFieldName('my-nonce');
 
         self::assertSame(
             'my-nonce',
-            $this->nonceInstannce->getFieldName(),
+            $this->nonceInstance->getFieldName(),
             'Expected a string of my-nonce'
         );
 
@@ -256,7 +256,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
     {
         self::assertEquals(
             1,
-            $this->nonceInstannce->verifyNonce($this->nonceInstannce->getNonce()),
+            $this->nonceInstance->verifyNonce($this->nonceInstance->getNonce()),
             'Expected a true condition'
         );
     }
@@ -268,9 +268,9 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
      */
     public function testVerifyAdmin()
     {
-        $nonceName = $this->nonceInstannce->getFieldName();
+        $nonceName = $this->nonceInstance->getFieldName();
         // set $_REQUEST
-        $_REQUEST[$nonceName] = $this->nonceInstannce->getNonce();
+        $_REQUEST[$nonceName] = $this->nonceInstance->getNonce();
 
         self::assertTrue(
             isset($_REQUEST[$nonceName]),
@@ -278,13 +278,13 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
         );
 
         self::assertEquals(
-            md5($this->nonceInstannce->getAction()),
+            md5($this->nonceInstance->getAction()),
             $_REQUEST[$nonceName],
             'Expected that the $_REQUEST nonce is the same as md5() of action'
         );
 
         self::assertTrue(
-            $this->nonceInstannce->verifyAdmin(),
+            $this->nonceInstance->verifyAdmin(),
             'Expected that verifyAdmin is truely'
         );
 
@@ -292,7 +292,7 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
         $_REQUEST[$nonceName] = 'abcde';
         self::assertSame(
             'not',
-            $this->nonceInstannce->verifyAdmin(),
+            $this->nonceInstance->verifyAdmin(),
             'Expected is a die() with "not" string'
         );
     }
@@ -304,9 +304,9 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
      */
     public function testVerifyAjax()
     {
-        $nonceName = $this->nonceInstannce->getFieldName();
+        $nonceName = $this->nonceInstance->getFieldName();
         // set $_REQUEST
-        $_REQUEST[$nonceName] = $this->nonceInstannce->getNonce();
+        $_REQUEST[$nonceName] = $this->nonceInstance->getNonce();
 
         self::assertTrue(
             isset($_REQUEST[$nonceName]),
@@ -314,13 +314,13 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
         );
 
         self::assertEquals(
-            md5($this->nonceInstannce->getAction()),
+            md5($this->nonceInstance->getAction()),
             $_REQUEST[$nonceName],
             'Expected that the $_REQUEST nonce is the same as md5() of action'
         );
 
         self::assertTrue(
-            $this->nonceInstannce->verifyAjax(),
+            $this->nonceInstance->verifyAjax(),
             'Expected that verifyAdmin is truely'
         );
 
@@ -328,10 +328,39 @@ class WpNoncesTest extends BrainMonkeyWpTestCase
         $_REQUEST[$nonceName] = 'abcde';
         self::assertSame(
             'not',
-            $this->nonceInstannce->verifyAjax(),
+            $this->nonceInstance->verifyAjax(),
             'Expected is a die() with "not" string'
         );
     }
 
+    /**
+     * Testing setNonceLife filter
+     *
+     * @return string
+     */
+    public function testSetNonceLifetime()
+    {
+        define('HOUR_IN_SECONDS', intval(3600));
+
+        $this->nonceInstance->setNonceLifetime();
+
+        self::assertFalse(
+            has_filter(
+                'nonce_life',
+                [$this->nonceInstance, 'setNonceLifetime']
+            ),
+            'Expected that a filter not fired to nonce_life'
+        );
+
+        $this->nonceInstance->setNonceLifetime(6);
+
+        self::assertTrue(
+            has_filter(
+                'nonce_life',
+                ['MediaStoreNet\WpNonces\WpNonces', 'setNonceLifetime']
+            ),
+            'Expected that a filter fired to nonce_life'
+        );
+    }
 
 }

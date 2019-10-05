@@ -19,6 +19,7 @@ or download it from
 
 ## How to use
 
+- TODO ...
 -
 -
 
@@ -33,7 +34,10 @@ When installed for development, via Composer requires:
 * inpsyde/php-coding-standards
 
 ## Documentation
+- TODO //Link to HTML-Doku
 
+## CHANGELOG
+[Link to changelog](CHANGELOG.md)
 ## Licence and Copyright
 
 GPLv2+ Licence

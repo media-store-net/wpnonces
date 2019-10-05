@@ -55,6 +55,13 @@ class WpNonces implements NonceInterface
     protected $nonce;
 
     /**
+     * Allows to modify default lifetime of the Nonce
+     *
+     * @var int $lifetime
+     */
+    protected $lifetime;
+
+    /**
      * GetInstance is a static function to return of this Class Instance
      *
      * @return WpNonces
@@ -175,11 +182,10 @@ class WpNonces implements NonceInterface
         bool $echo = true
     ) {
         if (!empty($name)) :
-            $this->field_name = $name;
+            $this->setFieldName($name);
         endif;
         if (!empty($action)) :
-            $this->action = $action;
-            $this->init();
+            $this->setAction($action);
         endif;
 
         return wp_nonce_field($this->action, $this->field_name, $referer, $echo);
@@ -219,6 +225,33 @@ class WpNonces implements NonceInterface
     public function verifyAjax()
     {
         return check_ajax_referer($this->action, $this->field_name, true);
+    }
+
+
+    /**
+     * Sets filter to custom Nonce Lifetime
+     * by default is lifetime 24 hours
+     * You will find more Info in the WordPress Codex - Modifying the nonce system
+     *
+     * @param int $hours // Time in hours
+     *
+     * @see    https://codex.wordpress.org/WordPress_Nonces
+     * @return void
+     */
+    public function setNonceLifetime(int $hours = 0)
+    {
+        if ($hours <= 0) :
+            return;
+        endif;
+
+        $this->lifetime = intval($hours) * HOUR_IN_SECONDS;
+
+        add_filter(
+            'nonce_life',
+            function () {
+                return $this->lifetime;
+            }
+        );
     }
 
     /**

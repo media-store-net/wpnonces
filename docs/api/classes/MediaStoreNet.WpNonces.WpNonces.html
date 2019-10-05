@@ -144,28 +144,28 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-116029459"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2142880820"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-116029459" class="accordion-body collapse in">
+            <div id="namespace-2142880820" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1247364717"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1265511880"></a>
                                 <a href="../namespaces/MediaStoreNet.html" style="margin-left: 30px; padding-left: 0">MediaStoreNet</a>
             </div>
-            <div id="namespace-1247364717" class="accordion-body collapse ">
+            <div id="namespace-1265511880" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                                                     <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-383712237"></a>
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-785284825"></a>
                                 <a href="../namespaces/MediaStoreNet.WpNonces.html" style="margin-left: 30px; padding-left: 0">WpNonces</a>
             </div>
-            <div id="namespace-383712237" class="accordion-body collapse ">
+            <div id="namespace-785284825" class="accordion-body collapse ">
                 <div class="accordion-inner">
 
                     
@@ -237,6 +237,7 @@
                                                                     <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#method_verifyNonce" class="">verifyNonce()</a><br />
                                                                     <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#method_verifyAdmin" class="">verifyAdmin()</a><br />
                                                                     <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#method_verifyAjax" class="">verifyAjax()</a><br />
+                                                                    <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#method_setNonceLifetime" class="">setNonceLifetime()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No public properties found</em>
@@ -255,6 +256,7 @@
                                                                     <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#property_field_name" class="">$field_name</a><br />
                                                                     <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#property_action" class="">$action</a><br />
                                                                     <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#property_nonce" class="">$nonce</a><br />
+                                                                    <a href="../classes/MediaStoreNet.WpNonces.WpNonces.html#property_lifetime" class="">$lifetime</a><br />
                                                             </section>
                             <section class="span4">
                                 <em>N/A</em>
@@ -394,6 +396,30 @@
                                 <h4>Type</h4>
                 string
                 &mdash; //Generated Nonce String                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_lifetime" name="property_lifetime" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$lifetime</h3>
+                <pre class="signature">$lifetime : integer</pre>
+                <p><em>Allows to modify default lifetime of the Nonce</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -847,6 +873,44 @@ the fields will be returned</em></p>
         </aside>
     </div>
 
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setNonceLifetime" name="method_setNonceLifetime" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setNonceLifetime()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setNonceLifetime(integer  <span class="argument">$hours</span>) : void</pre>
+                <p><em>Sets filter to custom Nonce Lifetime
+by default is lifetime 24 hours
+You will find more Info in the WordPress Codex - Modifying the nonce system</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$hours </td>
+                                <td><p>// Time in hours</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">https://codex.wordpress.org/WordPress_Nonces</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
                                                     <div class="row-fluid">
         <div class="span8 content class">
             <a id="method_init" name="method_init" class="anchor"></a>
@@ -1023,7 +1087,7 @@ Default type is &quot;error&quot;</em></p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on October 5th, 2019 at 13:07.
+                    on October 5th, 2019 at 16:24.
                 </section>
             </section>
         </section>

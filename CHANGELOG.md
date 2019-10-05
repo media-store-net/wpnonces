@@ -20,3 +20,8 @@ Initial Commit including
 - method for check_ajax_referer
 - tests for all this methods
 - UPDATE: generated phpdoc 
+
+= v0.0.3 =
+- method for modify nonce_lifetime
+- tests for nonce_lifetime
+- UPDATE: generated phpdoc 
