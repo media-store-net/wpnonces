@@ -6,16 +6,13 @@ the wp_options table.
 This Tool make it easier to handle the wp_nonce_* functions in a OOP-environment.
 
 ## Installation
-Easiest way to install is using composer, 
-but at moment is it a private Bitbucket Repository, and is not possible to use composer. 
+Easiest way to install is using composer,
 
-Please clone this Repo with
+composer require media-store-net/wp-oop-nonces
 
-`git clone https://your-account@bitbucket.org/pcservice-voll/wpnonces.git`
+or clone this Repo with
 
-or download it from
-
-[private Bitbucket Repo](https://bitbucket.org/pcservice-voll/wpnonces/)
+`git clone https://github.com/media-store-net/wpnonces.git`
 
 ## How to use
 
@@ -24,7 +21,7 @@ In general, you can use this class without further adjustment.
 As an example I have created a plugin, where i will use this package to handle nonce.
 
 
-_Step 1 :_ require the autoload.php to make it accessible in your plugin/theme
+_Step 1 :_ require the autoload.php to make it accessible in your plugin/theme | can be emited by using composer
 
 
 - download the Repo and store it in vendor folder in your plugin<br>
